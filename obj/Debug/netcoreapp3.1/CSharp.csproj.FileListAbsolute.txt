@@ -1,0 +1,15 @@
+D:\Work_Folder\Programming\CSharp\obj\Debug\netcoreapp3.1\CSharp.csprojAssemblyReference.cache
+D:\Work_Folder\Programming\CSharp\obj\Debug\netcoreapp3.1\CSharp.AssemblyInfoInputs.cache
+D:\Work_Folder\Programming\CSharp\obj\Debug\netcoreapp3.1\CSharp.AssemblyInfo.cs
+D:\Work_Folder\Programming\CSharp\obj\Debug\netcoreapp3.1\CSharp.csproj.CoreCompileInputs.cache
+D:\Work_Folder\Programming\CSharp\bin\Debug\netcoreapp3.1\CSharp.exe
+D:\Work_Folder\Programming\CSharp\bin\Debug\netcoreapp3.1\CSharp.deps.json
+D:\Work_Folder\Programming\CSharp\bin\Debug\netcoreapp3.1\CSharp.runtimeconfig.json
+D:\Work_Folder\Programming\CSharp\bin\Debug\netcoreapp3.1\CSharp.runtimeconfig.dev.json
+D:\Work_Folder\Programming\CSharp\bin\Debug\netcoreapp3.1\CSharp.dll
+D:\Work_Folder\Programming\CSharp\bin\Debug\netcoreapp3.1\CSharp.pdb
+D:\Work_Folder\Programming\CSharp\obj\Debug\netcoreapp3.1\CSharp.dll
+D:\Work_Folder\Programming\CSharp\obj\Debug\netcoreapp3.1\CSharp.pdb
+D:\Work_Folder\Programming\CSharp\obj\Debug\netcoreapp3.1\CSharp.genruntimeconfig.cache
+D:\Work_Folder\Programming\CSharp\bin\Debug\netcoreapp3.1\LiteDB.dll
+D:\Work_Folder\Programming\CSharp\obj\Debug\netcoreapp3.1\CSharp.csproj.CopyComplete
