@@ -19,11 +19,11 @@ namespace LiteDB
             while (true) {
                 Console.Clear();
                 DateTime now = DateTime.Now;
-                Console.WriteLine("-----Welcome------------Bank-of-Snow---------Nicolas-Saad--alpha-v0.125");
+                Console.WriteLine("-----Welcome------------Bank-of-Snow----------Nothing-Software---v0.15");
                 Console.WriteLine("------User---------------Main-Menu----------------" + now);
                 
                 Console.WriteLine("\nActions: S = Search   U = Update   C = Create   D = Delete   Q = Quit");
-                System.Console.WriteLine("\n\n");
+                Console.Write(">");
                 char userInput = Console.ReadKey().KeyChar;
 
                 if (userInput == 's' || userInput == 'S')
@@ -58,13 +58,22 @@ namespace LiteDB
                                 Delete(customerAcc);
                                 Read(customerAcc);
 
-                            } else 
+                            } else if (userInput == 'q' || userInput == 'Q')
                                 {
-                                    Console.WriteLine("\n\nGoodbye------------------------------------------------------------");
-                                    Console.WriteLine("Press any key to quit...");
-                                    Console.ReadKey();
-                                    Console.Clear();
-                                    break;
+                                    Console.WriteLine("Are you sure you want to QUIT? Y/N");
+                                    char yesNo = Console.ReadKey().KeyChar;
+                                    if (yesNo == 'n' || yesNo == 'N') 
+                                    {
+                                        Console.ReadKey();
+                                    } else if (userInput == 'y' || userInput == 'Y')
+                                        {
+                                            Console.WriteLine("\n\nGoodbye");
+                                            Console.WriteLine("Press any key to quit...");
+                                            Console.ReadKey();
+                                            Console.Clear();
+                                            break;
+                                        }
+
                                 }
             } // end of while loop
         }
@@ -88,15 +97,13 @@ namespace LiteDB
                 }
                 var account1 = new UserAccount
                 {
-                    AccNum = MaxAccountNum + 1, //Account numbers are auto generated. I need to find the highest account number and add one to it
+                    AccNum = MaxAccountNum + 1,
                     AccName = newName,
                     AccValue = x,
                     IsActive = true,
                 };
 
                 accounts.Insert(account1);
-    
-                Console.WriteLine("Current Number of Active Accounts: ");
 
                 Console.WriteLine("\nPress any key to go back...");
                 Console.ReadKey();
@@ -105,6 +112,8 @@ namespace LiteDB
 
         static void Read(string accountName)
         {
+            int totalAccValue = 0;
+            char accountChar = accountName[0];
             using(var db=new LiteDatabase(_strConnection))
             {
                 var accounts = db.GetCollection<UserAccount>("accounts");
@@ -112,29 +121,73 @@ namespace LiteDB
                 //index documents using a document property
                 accounts.EnsureIndex(x => x.AccName);
                                 
-                var result = accounts.Find(x => x.AccName == accountName).FirstOrDefault();
+                // var result = accounts.Find(x => x.AccName == accountName).FirstOrDefault();
 
-                if (result != null)
+                var results = accounts.Query()
+                    .Where(x => x.AccName.StartsWith(accountChar))
+                    .OrderBy(x => x.AccName)
+                    .Select(x => new { x.AccName, x.AccNum, x.AccValue })
+                    .Limit(10)
+                    .ToList();
+                
+                if (results != null)
                 {
-                    Console.Write("Account exists: ");
-                    Console.WriteLine("Displaying results...");
-                    Console.WriteLine("Acc Holder Name: " + result.AccName);
-                    Console.WriteLine("Account #: " + result.AccNum);
-                    Console.WriteLine("Acc Value: " + result.AccValue);
+                    Console.WriteLine("Displaying Search Results for " + accountName);
+                    Console.WriteLine("Choose one: ");
 
-                    int n = accounts.Count();
-                    Console.WriteLine("\nCurrent Number of Active Accounts: " + n.ToString());
+                    //TODO: Allow user to choose a name from list of results
+                    
+                    foreach (var element in results) 
+                    {
+                        Console.WriteLine(element.AccName);
+                    }
+
+                    Console.WriteLine("\n");
+
+                    foreach (var element in results) 
+                    {
+                        Console.Write("Account #: " + element.AccNum + "   ");
+                        Console.Write("$" + element.AccValue);
+                        Console.Write("\n");
+                        totalAccValue += element.AccValue;
+
+                    }
+                    Console.WriteLine("Total number of accounts: " + results.Count());
+                    Console.WriteLine("Total value for accounts: $" + totalAccValue);
 
                     Console.WriteLine("\nPress any key to go back..."); 
                     Console.ReadKey();
-
-                } else 
+                    
+                }   else 
                     {
                         Console.WriteLine("The name, " + accountName + ", was not found in the Account Holder database.");
 
                         Console.WriteLine("\nPress any key to go back...");
                         Console.ReadKey();
                     }
+
+
+                // if (result != null)
+                // {
+                //     Console.Write("Account exists: ");
+                //     Console.WriteLine("Displaying results...");
+                //     Console.WriteLine("Acc Holder Name: " + result.AccName);
+                //     Console.WriteLine("Account #: " + result.AccNum);
+                //     Console.WriteLine("Acc Value: " + result.AccValue);
+
+                //     int n = accounts.Count();
+                //     Console.WriteLine("\nCurrent Number of Active Accounts: ");
+
+                //     Console.WriteLine("\nPress any key to go back..."); 
+                //     Console.ReadKey();
+
+                // } else 
+                //     {
+                //         Console.WriteLine("The name, " + accountName + ", was not found in the Account Holder database.");
+
+                //         Console.WriteLine("\nPress any key to go back...");
+                //         Console.ReadKey();
+                //     }
             }
         }
 
