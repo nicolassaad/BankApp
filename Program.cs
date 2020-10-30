@@ -4,6 +4,7 @@ using System.Linq;
 //TODO in general: Reduce amount of overall code
 //TODO in general: Try and catch for incorrect user input being entered
 
+// WHEN PEOPLE SHARE THE SAME NAME THE ADDRESS IS THE ONLY UNIQUE IDENTIFIER
 //TODO1: Make a query that returns all accounts with the same address when you pick an account to display in Read()
 //TODO2: Enable Update() to transfer money between accounts
 //TODO3: Enable Read() the option to search by Account Number
@@ -105,6 +106,7 @@ namespace LiteDB
                 }
                 Console.WriteLine("Type Chosen: " + newAccountType);
 
+                //Assigns an account number by adding +1 to the total number of accounts that have ever existed preventing duplicate account numbers from being generated
                 if (accounts.Count() != 0) {
                     MaxAccountNum = Math.Max(accounts.Count(), accounts.Max()); 
                 }
@@ -153,25 +155,44 @@ namespace LiteDB
                     {
                         Console.WriteLine(count++ + " " + element.AccName + "  " + element.AccAddress);
                     }
+
                     string newValue = Console.ReadLine();
-                    int x = 0;
-                    Int32.TryParse(newValue, out x);
+                    int n = 0;
+                    Int32.TryParse(newValue, out n);
                     Console.WriteLine("\n");
-
-                    Console.WriteLine("Account Holder: " + results[x].AccName);
-                    Console.Write("Account #: " + results[x].AccNum + "   ");
-                    Console.Write("$" + results[x].AccValue + "   ");
-                    Console.Write("Type: " + results[x].AccType + "   ");
-                    Console.Write("Address: " + results[x].AccAddress);
-                    Console.Write("\n");
-                    totalAccValue += results[x].AccValue;
                     
-                    // Console.WriteLine("Total number of accounts: " + results.Count());
-                    Console.WriteLine("Total value for accounts: $" + totalAccValue);
+                    var indivResults = accounts.Query()
+                        .Where(x => x.AccAddress == results[n].AccAddress.ToString())
+                        .OrderBy(x => x.AccName)
+                        .Select(x => new { x.AccName, x.AccNum, x.AccValue, x.AccAddress, x.AccType })
+                        .ToList();
 
-                    Console.WriteLine("\nPress any key to go back..."); 
-                    Console.ReadKey();
+                    foreach (var result in indivResults)
+                    {
+                        Console.WriteLine("Account Holder: " + result.AccName);
+                        Console.Write("Account #: " + result.AccNum + "   ");
+                        Console.Write("$" + result.AccValue + "   ");
+                        Console.Write("Type: " + result.AccType + "   ");
+                        Console.Write("Address: " + result.AccAddress);
+                        Console.Write("\n\n");
+                        totalAccValue += result.AccValue; 
+                    }
                     
+                    if (indivResults != null) 
+                    {
+                        Console.WriteLine("Total number of accounts: " + indivResults.Count());
+                        Console.WriteLine("Total value for accounts: $" + totalAccValue);
+
+                        Console.WriteLine("\nPress any key to go back..."); 
+                        Console.ReadKey();
+                    }  else
+                    {
+                        Console.WriteLine("Error Please try again");
+
+                        Console.WriteLine("\nPress any key to go back...");
+                        Console.ReadKey();
+                    }
+
                 }   else 
                     {
                         Console.WriteLine("The name, " + accountName + ", was not found in the Account Holder database.");
