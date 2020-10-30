@@ -4,7 +4,7 @@ using System.Linq;
 //TODO in general: Reduce amount of overall code
 //TODO in general: Try and catch for incorrect user input being entered
 
-//TODO1: Users can have more than one account. Edit search query so it can return all of a client's accounts (does this already work?)
+//TODO1: Make a query that returns all accounts with the same address when you pick an account to display in Read()
 //TODO2: Enable Update() to transfer money between accounts
 //TODO3: Enable Read() the option to search by Account Number
 //TODO Bonus: Ability to Print out the total amount of liquidity, or total cash value of all accounts. 
@@ -19,7 +19,7 @@ namespace LiteDB
             while (true) {
                 Console.Clear();
                 DateTime now = DateTime.Now;
-                Console.WriteLine("-----Welcome------------Bank-of-Snow----------Nothing-Software---v0.15");
+                Console.WriteLine("-----Welcome------------Bank-of-Merica--------Nothing-Software---v0.21");
                 Console.WriteLine("------User---------------Main-Menu----------------" + now);
                 
                 Console.WriteLine("\nActions: S = Search   U = Update   C = Create   D = Delete   Q = Quit");
@@ -65,10 +65,10 @@ namespace LiteDB
                                     if (yesNo == 'n' || yesNo == 'N') 
                                     {
                                         Console.ReadKey();
-                                    } else if (userInput == 'y' || userInput == 'Y')
+                                    } else
                                         {
                                             Console.WriteLine("\n\nGoodbye");
-                                            Console.WriteLine("Press any key to quit...");
+                                            Console.WriteLine("Press any key...");
                                             Console.ReadKey();
                                             Console.Clear();
                                             break;
@@ -91,7 +91,20 @@ namespace LiteDB
                 string newValue = Console.ReadLine();
                 int x = 0;
                 Int32.TryParse(newValue, out x);
-                
+                Console.WriteLine("Enter Account Holder Address: ");
+                string newAddress = Console.ReadLine();
+                Console.WriteLine("Choose Account Type: S = Savings   C = Checking");
+                char newAccountTypeChar = Console.ReadKey().KeyChar;
+                string newAccountType;
+                if (newAccountTypeChar == 'S' || newAccountTypeChar == 's')
+                {
+                    newAccountType = "Savings";
+                } else
+                {
+                    newAccountType = "Checking";
+                }
+                Console.WriteLine("Type Chosen: " + newAccountType);
+
                 if (accounts.Count() != 0) {
                     MaxAccountNum = Math.Max(accounts.Count(), accounts.Max()); 
                 }
@@ -100,6 +113,8 @@ namespace LiteDB
                     AccNum = MaxAccountNum + 1,
                     AccName = newName,
                     AccValue = x,
+                    AccAddress = newAddress,
+                    AccType = newAccountType,
                     IsActive = true,
                 };
 
@@ -120,39 +135,38 @@ namespace LiteDB
 
                 //index documents using a document property
                 accounts.EnsureIndex(x => x.AccName);
-                                
-                // var result = accounts.Find(x => x.AccName == accountName).FirstOrDefault();
 
                 var results = accounts.Query()
                     .Where(x => x.AccName.StartsWith(accountChar))
                     .OrderBy(x => x.AccName)
-                    .Select(x => new { x.AccName, x.AccNum, x.AccValue })
+                    .Select(x => new { x.AccName, x.AccNum, x.AccValue, x.AccAddress, x.AccType })
                     .Limit(10)
                     .ToList();
                 
                 if (results != null)
                 {
                     Console.WriteLine("Displaying Search Results for " + accountName);
-                    Console.WriteLine("Choose one: ");
+                    Console.WriteLine("Choose one (0-9): ");
 
-                    //TODO: Allow user to choose a name from list of results
-                    
+                    int count = 0;
                     foreach (var element in results) 
                     {
-                        Console.WriteLine(element.AccName);
+                        Console.WriteLine(count++ + " " + element.AccName + "  " + element.AccAddress);
                     }
-
+                    string newValue = Console.ReadLine();
+                    int x = 0;
+                    Int32.TryParse(newValue, out x);
                     Console.WriteLine("\n");
 
-                    foreach (var element in results) 
-                    {
-                        Console.Write("Account #: " + element.AccNum + "   ");
-                        Console.Write("$" + element.AccValue);
-                        Console.Write("\n");
-                        totalAccValue += element.AccValue;
-
-                    }
-                    Console.WriteLine("Total number of accounts: " + results.Count());
+                    Console.WriteLine("Account Holder: " + results[x].AccName);
+                    Console.Write("Account #: " + results[x].AccNum + "   ");
+                    Console.Write("$" + results[x].AccValue + "   ");
+                    Console.Write("Type: " + results[x].AccType + "   ");
+                    Console.Write("Address: " + results[x].AccAddress);
+                    Console.Write("\n");
+                    totalAccValue += results[x].AccValue;
+                    
+                    // Console.WriteLine("Total number of accounts: " + results.Count());
                     Console.WriteLine("Total value for accounts: $" + totalAccValue);
 
                     Console.WriteLine("\nPress any key to go back..."); 
