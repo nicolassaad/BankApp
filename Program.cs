@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using D;
+using UI;
 
 //TODO in general: Reduce amount of overall code
 //TODO in general: Try and catch for incorrect user input being entered
@@ -17,6 +19,9 @@ namespace LiteDB
         static string _strConnection="Filename=test1.litedb4; Mode=Exclusive";
         static void Main(string[] args)
         {
+            Display d = new Display();
+            UserInput ui = new UserInput();
+
             while (true) {
                 Console.Clear();
                 DateTime now = DateTime.Now;
@@ -162,7 +167,7 @@ namespace LiteDB
                     Console.WriteLine("\n");
                     
                     var indivResults = accounts.Query()
-                        .Where(x => x.AccAddress == results[n].AccAddress.ToString())
+                        .Where(x => x.AccAddress == results[n].AccAddress.ToString() || x.AccName == results[n].AccName.ToString())
                         .OrderBy(x => x.AccName)
                         .Select(x => new { x.AccName, x.AccNum, x.AccValue, x.AccAddress, x.AccType })
                         .ToList();
