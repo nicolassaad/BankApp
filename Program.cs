@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Linq;
-using D;
-using UI;
 
 //TODO in general: Reduce amount of overall code
 //TODO in general: Try and catch for incorrect user input being entered
@@ -14,14 +12,22 @@ using UI;
 
 namespace LiteDB
 {
-    class MainProgram
+    class MainProgram : IDisplay
     {
+        public void DisplayInt(int i)
+        {
+
+        }
+
+        public void DisplayString(string s)
+        {
+            
+        }
+        
         static string _strConnection="Filename=test1.litedb4; Mode=Exclusive";
+
         static void Main(string[] args)
         {
-            Display d = new Display();
-            UserInput ui = new UserInput();
-
             while (true) {
                 Console.Clear();
                 DateTime now = DateTime.Now;
