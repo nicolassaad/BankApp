@@ -12,28 +12,8 @@ using System.Linq;
 
 namespace LiteDB
 {
-    class MainProgram : IDisplay
+    class MainProgram
     {
-        public void DisplayMenu(string menuItem)
-        {
-
-        }
-
-        public void DislayMsg(string msg)
-        {
-            
-        }
-
-        public int GetIntInput(int i)
-        {
-            return i;
-        }
-
-        public string GetStringInput(string s)
-        {
-            return s;
-        }
-
         static string _strConnection="Filename=test1.litedb4; Mode=Exclusive";
 
         static void Main(string[] args)
