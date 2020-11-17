@@ -1,10 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "BQTCcXjKK5PDvLmh5fqQ9ezrU4paV+CUKPP7SQ/pr/eCJ9g7UTuIPUYUX9XufjC6sNANT6qkhI1KdyyTcIIXmA==",
+  "dgSpecHash": "jDp+R1I34gCYZiStBQdk8jl/GHxcZyZVzAaOBjGvc0rEzpYZuzldttQSsd3md85ISclxex4/Q35eQuS1TP5jpw==",
   "success": true,
-  "projectFilePath": "D:\\Work_Folder\\Programming\\CSharp\\CSharp.csproj",
+  "projectFilePath": "C:\\Programming\\BankApp\\CSharp.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Nick Saad\\.nuget\\packages\\litedb\\5.0.9\\litedb.5.0.9.nupkg.sha512"
+    "C:\\Users\\nicol\\.nuget\\packages\\litedb\\5.0.9\\litedb.5.0.9.nupkg.sha512",
+    "C:\\Users\\nicol\\.nuget\\packages\\microsoft.netcore.app.ref\\3.1.0\\microsoft.netcore.app.ref.3.1.0.nupkg.sha512",
+    "C:\\Users\\nicol\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\3.1.0\\microsoft.windowsdesktop.app.ref.3.1.0.nupkg.sha512",
+    "C:\\Users\\nicol\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\3.1.8\\microsoft.aspnetcore.app.ref.3.1.8.nupkg.sha512",
+    "C:\\Users\\nicol\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\3.1.9\\microsoft.netcore.app.host.win-x64.3.1.9.nupkg.sha512"
   ],
   "logs": []
 }

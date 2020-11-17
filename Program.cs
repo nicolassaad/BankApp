@@ -12,12 +12,104 @@ using System.Linq;
 
 namespace LiteDB
 {
+    class ConsoleDisplay : IDisplay
+    {
+        public ConsoleDisplay() {}
+
+        public bool IsOpen(bool boolValue)
+        {
+            if (boolValue == false) 
+            {
+                Close();
+            }
+            return boolValue;
+        }
+
+        public void Close()
+        {
+            //Quit program
+        }
+
+        public Actions GetAction()
+        {
+            Console.Clear();
+            Console.WriteLine("\nActions: S = Search   U = Update   C = Create   D = Delete   Q = Quit");
+            Console.Write(">");
+
+            switch (Console.ReadKey().KeyChar)
+            {
+                case 's':
+                case 'S':
+                    return Actions.Search;
+                case 'u':
+                case 'U':
+                    return Actions.Update;
+                case 'c':
+                case 'C':
+                    return Actions.Create;
+                case 'd':
+                case 'D':
+                    return Actions.Delete;
+                case 'q':
+                case 'Q':
+                    return Actions.Quit;
+                default:
+                    return Actions.Quit;
+            }
+        }
+
+        public void HandleAction(IDisplay display, Actions action)
+        {
+            switch (action)
+            {
+                case Actions.Search:
+                    Console.Clear();
+                    Console.WriteLine("---------------------Search / Read---------------------------------");
+                    Console.WriteLine("SEARCH for an existing account by Account Name:...");
+                    string customerAcc = Console.ReadLine();
+                    //Read(customerAcc);
+                    break;
+                case Actions.Update:
+                    Console.Clear();
+                    Console.WriteLine("--------------------------Update-----------------------------------");
+                    Console.WriteLine("UPDATE info for an existing account. Please Enter Account Name:...");
+                    //string customerAcc = Console.ReadLine();
+                    //Update(customerAcc);
+                    break;
+                case Actions.Create:
+                    Console.Clear();
+                    Console.WriteLine("--------------------------Create-----------------------------------");
+                    Console.WriteLine("Create a NEW account:");
+                    // Create(); 
+                    break;
+                case Actions.Delete:
+                    Console.Clear();
+                    Console.WriteLine("\n--------------------------Delete-----------------------------------");
+                    Console.WriteLine("Enter Account name to DELETE:... ");
+                    // string customerAcc = Console.ReadLine();
+                    // Delete(customerAcc);
+                    // Read(customerAcc); 
+                    break;
+                case Actions.Quit:
+                    Console.WriteLine("\n\nGoodbye");
+                    Console.WriteLine("Press any key...");
+                    Console.ReadKey();
+                    Console.Clear();
+                    IsOpen(false);
+                    break;
+            }
+        }
+    }
+
     class MainProgram
     {
         static string _strConnection="Filename=test1.litedb4; Mode=Exclusive";
 
         static void Main(string[] args)
         {
+            IDisplay display = new ConsoleDisplay();
+            display.IsOpen(true);
+            //Replace code below with do/while loop using `while (display.IsOpen())`
             while (true) {
                 Console.Clear();
                 DateTime now = DateTime.Now;
