@@ -66,29 +66,29 @@ namespace LiteDB
                     Console.Clear();
                     Console.WriteLine("---------------------Search / Read---------------------------------");
                     Console.WriteLine("SEARCH for an existing account by Account Name:...");
-                    string customerAcc = Console.ReadLine();
-                    //Read(customerAcc);
+                    string customerAcc1 = Console.ReadLine();
+                    MainProgram.Read(customerAcc1);
                     break;
                 case Actions.Update:
                     Console.Clear();
                     Console.WriteLine("--------------------------Update-----------------------------------");
                     Console.WriteLine("UPDATE info for an existing account. Please Enter Account Name:...");
-                    //string customerAcc = Console.ReadLine();
-                    //Update(customerAcc);
+                    string customerAcc2 = Console.ReadLine();
+                    MainProgram.Update(customerAcc2);
                     break;
                 case Actions.Create:
                     Console.Clear();
                     Console.WriteLine("--------------------------Create-----------------------------------");
                     Console.WriteLine("Create a NEW account:");
-                    // Create(); 
+                    MainProgram.Create(); 
                     break;
                 case Actions.Delete:
                     Console.Clear();
                     Console.WriteLine("\n--------------------------Delete-----------------------------------");
                     Console.WriteLine("Enter Account name to DELETE:... ");
-                    // string customerAcc = Console.ReadLine();
-                    // Delete(customerAcc);
-                    // Read(customerAcc); 
+                    string customerAcc3 = Console.ReadLine();
+                    MainProgram.Delete(customerAcc3);
+                    MainProgram.Read(customerAcc3); 
                     break;
                 case Actions.Quit:
                     Console.WriteLine("\n\nGoodbye");
@@ -172,7 +172,7 @@ namespace LiteDB
             } // end of while loop
         }
 
-        static void Create()
+        public static void Create()
         {
             using(var db=new LiteDatabase(_strConnection))
             {
@@ -220,7 +220,7 @@ namespace LiteDB
             }
         }
 
-        static void Read(string accountName)
+        public static void Read(string accountName)
         {
             int totalAccValue = 0;
             char accountChar = accountName[0];
@@ -328,7 +328,7 @@ namespace LiteDB
             }
         }
 
-        static void Update(string accountName)
+        public static void Update(string accountName)
         {
             using(var db=new LiteDatabase(_strConnection))
             {
@@ -385,7 +385,7 @@ namespace LiteDB
             }
         }
 
-        static void Delete(string accountName)
+        public static void Delete(string accountName)
         {
             using(var db=new LiteDatabase(_strConnection))
             {
